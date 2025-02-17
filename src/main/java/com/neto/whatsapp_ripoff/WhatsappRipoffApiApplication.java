@@ -1,12 +1,11 @@
 package com.neto.whatsapp_ripoff;
 
-import com.neto.whatsapp_ripoff.config.UploadConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
-@EnableConfigurationProperties(UploadConfig.class)
+@EnableJpaAuditing
 public class WhatsappRipoffApiApplication {
 
 	public static void main(String[] args) {
