@@ -1,5 +1,6 @@
 package com.neto.whatsapp_ripoff.user;
 
+import com.neto.whatsapp_ripoff.chat.Chat;
 import com.neto.whatsapp_ripoff.common.BaseAuditingEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -27,6 +29,11 @@ public class User extends BaseAuditingEntity {
     private String lastName;
     private String email;
     private LocalDateTime lastSeen;
+
+    @OneToMany(mappedBy = "sender")
+    private List<Chat> chatsAsSender;
+    @OneToMany(mappedBy = "recipient")
+    private List<Chat> chatsAsRecipient;
 
     @Transient
     public boolean isUserOnline() {

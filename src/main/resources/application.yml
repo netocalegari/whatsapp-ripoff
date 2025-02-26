@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost>5432:5432/whatsapp_ripoff
+    url: jdbc:postgresql://localhost:5432/whatsapp_ripoff
     username: username
     password: password
   jpa:
@@ -19,6 +19,9 @@ spring:
   servlet:
     multipart:
       max-request-size: 50MB
+
+springdoc:
+  default-produces-media-type: application/json
 
 application:
   file:

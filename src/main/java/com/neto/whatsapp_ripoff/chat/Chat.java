@@ -22,13 +22,13 @@ import java.util.List;
 @Table(name = "chat")
 @NamedQuery(
         name = ChatConstants.FIND_CHAT_BY_SENDER_ID,
-        query = "SELECT DISTINCT c FROM Chat c WHERE c.sender_id = :senderId OR c.recipient.id = :senderId ORDER BY " +
-                "createdDate DESC;"
+        query = "SELECT DISTINCT c FROM Chat c WHERE c.sender.id = :senderId OR c.recipient.id = :senderId ORDER BY " +
+                "createdDate DESC"
 )
 @NamedQuery(
         name = ChatConstants.FIND_CHAT_BY_SENDER_ID_AND_RECEIVER_ID,
         query = "SELECT DISTINCT c FROM Chat c WHERE (c.sender.id = :senderId AND c.recipient.id = :recipientId) OR " +
-                "(c.sender.id = :recipientId AND c.recipient.id = :senderId)"
+                "(c.sender.id = :recipientId AND c.recipient.id = :senderId) ORDER BY createdDate DESC"
 )
 public class Chat extends BaseAuditingEntity {
     @Id
@@ -45,11 +45,6 @@ public class Chat extends BaseAuditingEntity {
     @OrderBy("createdDate DESC")
     private List<Message> messages;
 
-    @OneToMany(mappedBy = "sender")
-    private List<Chat> chatsAsSender;
-    @OneToMany(mappedBy = "recipient")
-    private List<Chat> chatsAsRecipient;
-
     @Transient
     public String getChatName(final String senderId) {
         if (recipient.getId().equals(senderId)) {
@@ -62,9 +57,9 @@ public class Chat extends BaseAuditingEntity {
     @Transient
     public long getUnreadMessages(final String senderId) {
         return messages.stream()
-                .filter(m -> m.getReceiverId().equals(senderId))
-                .filter(m -> m.getState() == MessageState.SENT)
-                .count();
+                       .filter(m -> m.getReceiverId().equals(senderId))
+                       .filter(m -> m.getState() == MessageState.SENT)
+                       .count();
     }
 
     @Transient

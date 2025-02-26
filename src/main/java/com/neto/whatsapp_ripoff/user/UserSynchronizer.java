@@ -5,9 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -22,9 +20,10 @@ public class UserSynchronizer {
 
         getUserEmail(token).ifPresent(userEmail -> {
             log.info("Synchronizing user having email {}", userEmail);
-//            Optional<User> optUser = userRepository.findByEmail(userEmail);
+            Optional<User> optUser = userRepository.findByEmail(userEmail);
             User user = userMapper.fromTokenAttributes(token.getClaims());
-//            optUser.ifPresent(value -> user.setId(optUser.get().getId()));
+            optUser.ifPresent(value -> user.setId(value.getId()));
+            userRepository.save(user);
 
             userRepository.save(user);
         });

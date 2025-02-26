@@ -11,7 +11,6 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -34,5 +33,7 @@ private final UserSynchronizer userSynchronizer;
 
             userSynchronizer.synchronizeWithIdp(token.getToken());
         }
+
+        filterChain.doFilter(request, response);
     }
 }
